@@ -2,63 +2,69 @@ import React, { Component } from 'react';
 import RepoNames from './components/RepoNames'
 import './App.css';
 
+const names = [
+              'alfredosorio',
+              'ifollowedthewhiterabbit',
+              'Livia-Santos',
+              'Jay-Aye',
+              'Chris-Robertson',
+              'CharleyFarley',
+              'george2kra',
+              'teck7',
+              'Reynolds15',
+              'cjpillette',
+              'vinnym342',
+              'paigerichards',
+              'Confidenceman02',
+              'melvourne',
+              'C-lockwood',
+              'Samseppiol',
+              'AnnSiapno',
+              'vkalfieri',
+              'dsaleem',
+              'Csthy93',
+              'madzc97'
+              ]
 
-const classMates=
-['alfredosorio',
-'ifollowedthewhiterabbit',
-'Livia-Santos',
-'Jay-Aye',
-'Chris-Robertson',
-'CharleyFarley',
-'george2kra',
-'teck7',
-'Reynolds15',
-'cjpillette',
-'vinnym342',
-'paigerichards',
-'Confidenceman02',
-'melvourne',
-'C-lockwood',
-'Samseppiol',
-'AnnSiapno',
-'vkalfieri',
-'dsaleem',
-'Csthy93',
-'madzc97'
-]
 
 class App extends Component {
-  state= {
+  state = {
     error: null,
-    repos: null
+    repos: null,
+    classMates: null
   }
-    render() {
-      const { error, repos } = this.state
-    return (
+
+  render() {
+    const {error, repos} = this.state
+      return (
       <div className="App">
-      { !!error && <p>error.message </p>}
-      { !!repos ? (
-        <RepoNames items={repos}/>
-      ) : (
-        'Loading repos...'
-      )}
-        <h2>Total classmates {classMates.length}</h2>
-
-
+       {
+         names.map((name) => (
+           <li>
+            <a onClick={() => this.handleClick(name)} style={{cursor: 'pointer'}} >{name}</a>
+           </li>
+         ))
+       }
+       { !!error && <p> {error.message}</p>}
+       { !!repos ? ( <RepoNames items= {repos} /> ) : ( '' ) }
       </div>
     );
   }
-  componentDidMount() {
-    fetch('https://api.github.com/users/george2kra/repos')
+
+  handleClick = (classMates) => {
+    fetch(`https://api.github.com/users/${classMates}/repos`)
     .then(res => res.json())
     .then(repos => {
-      this.setState({repos})
+      this.setState({repos, classMates})
     })
     .catch(error => {
       this.setState({error})
     })
 
   }
+
+
 }
+
 
 export default App;
